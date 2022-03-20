@@ -1,0 +1,16 @@
+[package]
+name = "oecli"
+version = "0.1.0"
+edition = "2021"
+description = "CLI tool for handling booilerplate and operations within Overengineered ecosystem."
+license = "MIT"
+license-file = "LICENSE"
+documentation = "https://overengineeredone.github.io/docs/"
+homepage = "https://github.com/overengineeredone"
+repository = "https://github.com/overengineeredone/oecli"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "3.1.6", features = ["derive"] }
+
