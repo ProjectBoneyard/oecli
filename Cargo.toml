@@ -1,6 +1,6 @@
 [package]
 name = "oecli"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "CLI tool for handling booilerplate and operations within Overengineered ecosystem."
 license = "MIT"
