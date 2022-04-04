@@ -13,4 +13,4 @@ repository = "https://github.com/overengineeredone/oecli"
 
 [dependencies]
 clap = { version = "3.1.6", features = ["derive"] }
-
+regex = "1"

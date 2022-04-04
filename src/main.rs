@@ -1,18 +1,26 @@
+//! oecli is a command line interface to provide a productivity boost by
+//! handling boilerplate and some operational overhead with development within
+//! the Overengineered ecosystem.
+
 use clap::{Args, Parser, Subcommand};
 
-/// oicli is a command line interface to provide a productivity boost by
-/// handling boilerplate and some operational overhead with development within
-/// the Overengineered ecosystem.
+mod github;
+mod node;
+
+/// oecli parser
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
 #[clap(propagate_version = true)]
 struct Cli {
+    /// Subcommand passed into oecli
     #[clap(subcommand)]
     command: Commands,
 }
 
+/// Different sub command line options available with oecli
 #[derive(Subcommand)]
 enum Commands {
+    /// Progressive Web App
     PWA(PWA),
 }
 
@@ -33,33 +41,11 @@ fn main() {
 
     match &cli.command {
         Commands::PWA(name) => {
-            create_repo(&name.new);
-            npm_install(&name.new);
+            github::create(&name.new);
+            let username = github::logged_in_user();
+            let full_repo = format!("{}/{}", &username, &name.new);
+            github::clone(&full_repo);
+            node::npm_install(&name.new);
         }
     }
-}
-
-/// Will create a new Github repository based on the PatternFly quick start
-/// for Yew template.
-fn create_repo(name: &str) -> () {
-    std::process::Command::new("gh")
-        .arg("repo")
-        .arg("create")
-        .arg(&name)
-        .arg("--template")
-        .arg("ctron/patternfly-yew-quickstart")
-        .arg("--clone")
-        .arg("--public")
-        .output()
-        .expect("");
-}
-
-/// Runs npm install. Requires a string parameter and is used as the relative
-/// directory to run the command in.
-fn npm_install(dir: &str) -> () {
-    std::process::Command::new("npm")
-        .arg("install")
-        .current_dir(format!("./{}", &dir))
-        .output()
-        .expect("");
 }
